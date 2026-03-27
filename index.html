@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DebugGURU</title>
+</head>
+<body>
+    <h1>DebugGURU</h1>
+
+    <textarea id="code" rows="10" cols="50" placeholder="Paste your code here"></textarea><br><br>
+
+    <button onclick="analyze()">Analyze</button>
+
+    <h3>Output:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        async function analyze() {
+            const code = document.getElementById("code").value;
+
+            const res = await fetch("http://127.0.0.1:5000/analyze", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ code: code })
+            });
+
+            const data = await res.json();
+
+            document.getElementById("output").innerText =
+                "Error: " + data.error + "\n\n" +
+                "Explanation: " + data.explanation + "\n\n" +
+                "Fix: " + data.fix;
+        }
+    </script>
+</body>
+</html>
